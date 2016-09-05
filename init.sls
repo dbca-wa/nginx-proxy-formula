@@ -23,7 +23,8 @@ nginx_pkg:
 include_{{ file }}:
     file.managed:
         - name: /etc/nginx/{{ file }}
-        - mode: 600
+        - mode: 644
+        - dir_mode: 755
         - makedirs: True
         - contents_pillar: nginx-includes:{{ file }}
         - watch_in:
