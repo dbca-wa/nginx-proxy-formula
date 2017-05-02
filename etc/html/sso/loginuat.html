@@ -1,0 +1,33 @@
+<html>
+    <head><title>Login</title></head>
+    <body bgcolor="white">
+        <center><h1>Login...</h1></center>
+        <script language="javascript">
+            function loginFailed () {
+                login_url = "https://oim-uat.dpaw.wa.gov.au/redirect/" + document.location.host + document.location.pathname + document.location.search;
+                document.location = login_url;
+            }
+
+            function loginSucceed () {
+                try {
+                    if (JSON.parse(this.responseText)["session_key"]) {
+                        document.location.reload()
+                    } else {
+                        loginFailed()
+                    }
+                } catch(ex) {
+                    loginFailed()
+                }
+            }
+
+            var oReq = new XMLHttpRequest();
+            oReq.addEventListener("load", loginSucceed);
+            oReq.addEventListener("error", loginFailed);
+            oReq.withCredentials = true
+            oReq.open("GET","https://oim-uat.dpaw.wa.gov.au/api/whoami");
+            oReq.send();
+
+        </script>
+    </body>
+</html>
+
